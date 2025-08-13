@@ -1,16 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>My Web Page</title>
-    <meta name='description' content='A simple web page example'>
-    </title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WGS Story's </title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1 >Welcome to </h1>
+  <div class="container">
+    <!-- Header Section -->
+    <header>
+      <div class="logo">WGS Story's </div>
+      
+      <!-- Category Dropdown -->
+      <div class="category-dropdown">
+        <button class="dropdown-btn">Select Category ▼</button>
+        <div class="dropdown-content">
+          <button onclick="filterPosts('all')">All</button>
+          <button onclick="filterPosts('horror')">Horror</button>
+          <button onclick="filterPosts('love')">❤️ Love</button>
+          
+        </div>
+      </div>
+    </header>
+
+    <!-- Posts Section -->
+    <div class="posts" id="postContainer">
+
+      <!-- Post 1 -->
+      <div class="post" data-category="love">
+        <h1 style="text-align: center;">📖 स्टोरी कलेक्शन</h1><hr>
+        <div class="post-header">
+          <div><a href="../v4/users/Yuji/profile/profile.html"><img src="usersYyuji/profile/profile photo/yuji.webp" class="user-avatar" alt="Yuji"></a></div>
+          <div class="username">Yuji</div>
+        </div>
+        <h2>❤️ एक अधूरी मोहब्बत</h2>
+        <p>अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी...</p>
+        <br>
+        <a href="users/yuji/posts/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी.html" class="glow-on-hover"><div class="read-more">Read More</div></a>
+        <br><br>
+      </div>
+      
+      <!-- Post 2 -->
+      <div class="post" data-category="love">
+        <div class="post-header">
+          <div><a href="../v4/users/Yuji/profile/profile.html"><img src="usersYyuji/profile/profile photo/yuji.webp" class="user-avatar" alt="Yuji"></a></div>
+          <div class="username">Yomesh</div>
+        </div>
+        <h2>❤️ एक अधूरी मोहब्बत</h2>
+        <p>अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी...</p>
+        <br>
+        <a href="users/yuji/posts/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी.html" class="glow-on-hover"><div class="read-more">Read More</div></a>
+        <br><br>
+      </div>
+
+
+    <!-- Bottom Navigation -->
+    <footer>
+      <div class="bottom-nav">
+        <a href="index.html"><button class="glow-on-hover"><div class="icon"> 🏠</div></button></a>
+        <a href="post mail/index.html"><button class="glow-on-hover"><div class="icon">➕</div></button></a>
+      </div>
+    </footer>
+  </div>
+
 </body>
+<script src="script1.js"></script>
 </html>
