@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - WGS Storys</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .profile-container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .dark-mode .profile-container {
+            background: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+        }
+        .profile-info h2 {
+            margin: 10px 0 5px;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #777;
+        }
+        .dark-mode .profile-info p {
+            color: #bbb;
+        }
+        .bio {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .dark-mode .bio {
+            background: #333;
+        }
+        .posts {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .post {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .dark-mode .post {
+            background: #222;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+        .change-photo, .edit-bio, .dark-mode-toggle {
+            margin-top: 10px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+        .button {
+            margin: 10px;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .dark-mode-toggle {
+            background: #007bff;
+            color: white;
+        }
+        .dark-mode .dark-mode-toggle {
+            background: #ffcc00;
+            color: black;
+        }
+        /* buttons */  
+
+.glow-on-hover {
+    width: 60px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+.read-more{
+  background-color: #000000;
+  border: none;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+p {
+  line-height: 1.8;
+  text-align: justify;
+}
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  width: 200px;
+  margin: auto;
+}
+.back:hover {
+  background: #0056b3;
+}
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <img id="profile-photo" src="../Profile/Profile Photo/Used/Profile.jpg" alt="username/naem " class="profile-photo">
+        
+        <div class="profile-info">
+            <h2 id="name">Golu</h2>
+            <p id="username">Cutie_Golu</p>
+            <p id="location">📍 Rajasthan, India</p>
+            <p id="join-date">Joined: 08/2025</p>
+        </div>
+
+        <div class="bio">
+            <h3>Bio</h3>
+            <p id="bio-text">I am 16 Year old Girl📖</p>
+        </div>
+        <button class="dark-mode-toggle button" onclick="toggleDarkMode()">Dark Mode</button>
+
+
+        <div class="posts">
+            <h3>Recent Posts</h3>
+            <div class="post">
+                <h3>TITILE</h3>
+                <p class="date">08 15,2025</p>
+                <p>Kabhi-kabhi ek chhoti si mulaqat, poori zindagi ka sabse khoobsurat chapter ban jaati hai.</p>
+                <br>
+                <a href="../../Cutie_Golu/post/Wo Pehli Nazar, Jo Dil Pe Likhi Gayi/Index.html.html" class="glow-on-hover"><div class="read-more">Read More</div></a>
+            
+                
+                  <!-- <div class="post">
+                <h3>💔</h3>
+                <p class="date">February 10, 2025</p>
+                <p> </p>
+                <br>
+                 <a href="   " class="glow-on-hover"><div class="read-more">Read More</div></a> -->
+            
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        </div>
+        <footer>
+      <div class="bottom-nav">
+        <button class="glow-on-hover" type="button" onclick="goBack()"><div class="icon"> 🏠</div></button>
+       <a href="../../../post mail/index.html"><button class="glow-on-hover" type="button"> <div class="icon">➕</div></button></a>
+         
+       <!-- <a href=""><button class="glow-on-hover" type="button"> <div class="icon">👤</div></button></a> -->
+      </div>
+
+    </footer>
+
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            let button = document.querySelector(".dark-mode-toggle");
+            button.innerText = document.body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
+        }
+         function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+</html>
