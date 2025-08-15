@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WGS Story's </title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 <body>
   <div class="container">
@@ -12,6 +14,17 @@
     <header>
       <div class="logo">WGS Story's </div>
       
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search stories..." 
+          oninput="filterBySearch(this.value)"
+        >
+        <div class="search-icon">🔍</div>
+      </div>
+
       <!-- Category Dropdown -->
       <div class="category-dropdown">
         <button class="dropdown-btn">Select Category ▼</button>
@@ -28,7 +41,7 @@
     <div class="posts" id="postContainer">
 
       <!-- Post 1 -->
-      <div class="post" data-category="love">
+      <div class="post" data-category="love" data-aos="fade-up">
         <h1 style="text-align: center;">📖 स्टोरी कलेक्शन</h1><hr>
         <div class="post-header">
           <div><a href="users/Yuji/profile/profile.html"><img src="users/Yuji/profile/profile photo/yuji.webp" class="user-avatar" alt="Yuji"></a></div>
@@ -42,7 +55,7 @@
       </div>
 
       <!-- Post 2 -->
-      <div class="post" data-category="love">
+      <div class="post" data-category="love" data-aos="fade-up" data-aos-delay="100">
         <div class="post-header">
           <div><a href="users/Yomesh/Profile/profile.html"><img src="users/Yomesh/Profile/Profile Photo/Used/Yomesh.jpg" class="user-avatar" alt="Yuji"></a></div>
           <div class="username">Yomesh</div>
@@ -65,4 +78,11 @@
 
 </body>
 <script src="script1.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    offset: 100,
+    once: true
+  });
+</script>
 </html>

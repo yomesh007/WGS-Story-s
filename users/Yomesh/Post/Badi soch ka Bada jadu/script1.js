@@ -39,35 +39,8 @@ const posts = [
     displayPosts(filteredPosts);
   }
   
-  // Function to filter posts by category
-function filterPosts(category) {
-  const posts = document.querySelectorAll('.post');
+  // go back button
 
-  posts.forEach(post => {
-      if (category === "all" || post.getAttribute("data-category") === category) {
-          post.style.display = "block"; // Show post
-      } else {
-          post.style.display = "none"; // Hide post
-      }
-  });
-}
-
-// Function to filter posts by search text
-function filterBySearch(searchText) {
-  const posts = document.querySelectorAll('.post');
-  searchText = searchText.toLowerCase();
-
-  posts.forEach(post => {
-    const content = post.textContent.toLowerCase();
-    const username = post.querySelector('.username').textContent.toLowerCase();
-    
-    if (content.includes(searchText) || username.includes(searchText)) {
-      post.style.display = 'block';
-    } else {
-      post.style.display = 'none';
-    }
-  });
-}
-
-// Load all posts on page load
-window.onload = () => filterPosts("all");
+  function goBack() {
+            window.history.back();
+        }

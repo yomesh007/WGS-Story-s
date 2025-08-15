@@ -30,35 +30,11 @@ header .logo {
   font-weight: bold;
 }
 
-header .search-bar {
-  position: relative;
-  flex: 1;
-  max-width: 400px;
-  margin: 0 20px;
-}
-
 header .search-bar input {
-  width: 100%;
-  padding: 10px 40px 10px 15px;
-  border: 2px solid rgba(99, 102, 241, 0.2);
-  border-radius: 25px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-header .search-bar input:focus {
-  outline: none;
-  border-color: #4F46E5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-header .search-bar .search-icon {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #6B7280;
-  pointer-events: none;
+  width: 80%;
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
 }
 
 header .nav-icons {
@@ -207,79 +183,22 @@ body {
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
 }
-
-/* Dropdown Styling */
-.category-dropdown {
-  position: relative;
-  display: inline-block;
+p {
+  line-height: 1.8;
+  text-align: justify;
 }
-
-.dropdown-btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.dropdown-btn:hover {
-  background-color: #555;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  min-width: 150px;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.dropdown-content button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  text-align: left;
-  background-color: white;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.dropdown-content button:hover {
-  background-color: #f0f0f0;
-}
-
-.category-dropdown:hover .dropdown-content {
+.back {
   display: block;
+  text-align: center;
+  margin-top: 20px;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  width: 200px;
+  margin: auto;
 }
-
-/* Post Fade-In Animation */
-.post {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.5s forwards;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .search-bar {
-    order: 3;
-    max-width: 100%;
-    margin: 10px 0;
-  }
+.back:hover {
+  background: #0056b3;
 }
