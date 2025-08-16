@@ -22,8 +22,8 @@
             color: white;
         }
         .profile-container {
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 40%;
             margin: 20px auto;
             background: white;
             padding: 20px;
@@ -60,26 +60,107 @@
         .dark-mode .bio {
             background: #333;
         }
-        .posts {
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
             margin-top: 20px;
-            text-align: left;
+        }
+        .content-slider {
+            display: flex;
+            width: 300%;  /* Changed from 200% to 300% for 3 sections */
+            transform: translateX(0);
+            transition: transform 0.5s ease;
+        }
+        .content-slider.show-playlist {
+            transform: translateX(-33.33%);
+        }
+        .content-slider.show-playlist-detail {
+            transform: translateX(-66.66%);
+        }
+        .main-content, .playlist-container, .playlist-detail-view {
+            width: 33.33%;  /* Changed from 50% to 33.33% */
+            padding: 20px;
+        }
+        .nav-button {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            background: #0056b3;
+        }
+        .nav-button.next:hover {
+            transform: translateX(5px);
+        }
+        .nav-button.back:hover {
+            transform: translateX(-5px);
+        }
+        .dark-mode .nav-button {
+            background: #333;
+        }
+        .dark-mode .nav-button:hover {
+            background: #444;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #007bff;
+        }
+        .posts h3, .playlist-container h3 {
+            margin-bottom: 10px;
         }
         .post {
             background: #fff;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 10px;
             border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .dark-mode .post {
-            background: #222;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        .post h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
         }
-        .change-photo, .edit-bio, .dark-mode-toggle {
-            margin-top: 10px;
+        .post .date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .playlist-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            color: blue;
-            text-decoration: underline;
+            transition: background 0.3s;
+        }
+        .dark-mode .playlist-item {
+            background: #222;
+        }
+        .playlist-item:hover {
+            background: #f0f0f0;
+        }
+        .dark-mode .playlist-item:hover {
+            background: #333;
+        }
+        .playlist-info h4 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+        .dark-mode .playlist-info h4 {
+            color: #fff;
         }
         .button {
             margin: 10px;
@@ -164,6 +245,25 @@
   cursor: pointer;
   border-radius: 10px;
 }
+.playlist-detail-view .read-more {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 15px;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+    .playlist-detail-view .read-more:hover {
+        background: #0056b3;
+    }
+    .dark-mode .playlist-detail-view .read-more {
+        background: #333;
+    }
+    .dark-mode .playlist-detail-view .read-more:hover {
+        background: #444;
+    }
 @keyframes glowing {
     0% { background-position: 0 0; }
     50% { background-position: 400% 0; }
@@ -188,12 +288,101 @@ p {
 .back:hover {
   background: #0056b3;
 }
+.playlist-detail {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .playlist-detail-content {
+        width: 90%;
+        max-width: 800px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .dark-mode .playlist-detail-content {
+        background: #1e1e1e;
+    }
+    .close-playlist {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+    }
+    .playlist-header {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .playlist-header h2 {
+        margin-bottom: 10px;
+    }
+    .playlist-stats {
+        font-size: 14px;
+        color: #666;
+    }
+    .back-button {
+        background: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    .back-button:hover {
+        background: #0056b3;
+        transform: translateX(-5px);
+    }
+    .next-button {
+        background: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin-left: auto;
+    }
+    .next-button:hover {
+        background: #0056b3;
+        transform: translateX(5px);
+    }
+    .dark-mode .back-button,
+    .dark-mode .next-button {
+        background: #333;
+    }
+    .dark-mode .back-button:hover,
+    .dark-mode .next-button:hover {
+        background: #444;
+    }
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+    }
     </style>
 </head>
 <body>
-
     <div class="profile-container">
-        <img id="profile-photo" src="profile photo/yuji.webp" alt="Yuji " class="profile-photo">
+        <img id="profile-photo" src="../profile/profile photo/yuji.webp" alt="Yomesh " class="profile-photo">
         
         <div class="profile-info">
             <h2 id="name">Yuji</h2>
@@ -209,54 +398,57 @@ p {
         <button class="dark-mode-toggle button" onclick="toggleDarkMode()">Dark Mode</button>
 
 
-        <div class="posts">
-            <h3>Recent Posts</h3>
-            <div class="post">
-                <h3>अधूरी मोहब्बत 💔</h3>
-                <p class="date">February 10, 2025</p>
-                <p>अर्जुन और सिया की कहानी अधूरी रह गई...</p>
-                <br>
-                 <a href="../../Yuji/posts/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी.html" class="glow-on-hover"><div class="read-more">Read More</div></a>
+        <div class="content-wrapper">
+            <div class="content-slider">
+                <!-- First View: Recent Posts -->
+                <div class="main-content">
+                    <h3 class="section-title">Recent Posts</h3>
+                    <div class="post">
+                        <h3>अधूरी मोहब्बत 💔</h3>
+                        <p class="date">February 10, 2025</p>
+                        <p>अर्जुन और सिया की कहानी अधूरी रह गई...</p>
+                        <br>
+                        <a href="../../Yuji/posts/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी.html" class="glow-on-hover">
+                            <div class="read-more">Read More</div>
+                        </a>
+                    </div>
+                    <div class="button-container">
+                        <div></div>
+                        <button class="nav-button next" onclick="showPlaylist()">Playlist <span>→</span></button>
+                    </div>
+                </div>
 
-                  <!-- <div class="post">
-                <h3>💔</h3>
-                <p class="date">February 10, 2025</p>
-                <p> </p>
-                <br>
-                 <a href="   " class="glow-on-hover"><div class="read-more">Read More</div></a> -->
+                <!-- Second View: Playlist List -->
+                <div class="playlist-container">
+                    <div class="button-container">
+                        <button class="nav-button back" onclick="showPosts()"><span>←</span> Back</button>
+                        <div></div>
+                    </div>
+                    <h3 class="section-title">Playlist</h3>
+                    <div class="playlist-item" data-playlist-id="अधूरी मोहब्बत 💔">
+                        <div class="playlist-info">
+                            <h4>अधूरी मोहब्बत 💔</h4>
+                        </div>
+                    </div>
+                </div>
 
-
+                <!-- Third View: Playlist Details -->
+                <div class="playlist-detail-view">
+                    <div class="button-container">
+                        <button class="nav-button back" onclick="hidePlaylistDetail()"><span>←</span> Back to Playlist</button>
+                        <div></div>
+                    </div>
+                    <div class="playlist-header">
+                        <h2 id="playlistTitle"></h2>
+                        <div class="playlist-stats">
+                            <span id="playlistCount"></span> stories • 
+                            <span id="playlistViews"></span> total views
+                        </div>
+                    </div>
+                    <div id="playlistPosts"></div>
+                </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
         </div>
-
-
     </div>
         <footer>
       <div class="bottom-nav">
@@ -276,6 +468,81 @@ p {
          function goBack() {
             window.history.back();
         }
+        function togglePlaylist() {
+            const slider = document.querySelector('.content-slider');
+            const button = document.querySelector('.nav-button');
+            
+            if (slider.classList.contains('show-playlist')) {
+                slider.classList.remove('show-playlist');
+                button.textContent = 'Show Playlist';
+            } else {
+                slider.classList.add('show-playlist');
+                button.textContent = 'Show Posts';
+            }
+        }
+        const playlists = {
+        'अधूरी मोहब्बत 💔': {
+            title: 'अधूरी मोहब्बत 💔',
+            posts: [
+                {
+                    title: 'अधूरी मोहब्बत 💔',
+                    description: 'अर्जुन और सिया की कहानी अधूरी रह गई...',
+                    link: '../../Yuji/posts/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी/अर्जुन और सिया एक ही कॉलेज में पढ़ते थे। दोनों की दोस्ती धीरे-धीरे प्यार में बदल रही थी.html',
+                },
+
+            ]
+        }
+        // Add more playlists here
+    };
+
+    function showPlaylistDetail(playlistId) {
+        const playlist = playlists[playlistId];
+        if (!playlist) return;
+
+        document.getElementById('playlistTitle').textContent = playlist.title;
+        document.querySelector('.playlist-stats').textContent = `${playlist.posts.length} stories`;
+
+        const postsHTML = playlist.posts.map(post => `
+            <div class="playlist-item">
+                <div class="playlist-info">
+                    <h4>${post.title}</h4>
+                    <a href="${post.link}" class="read-more">Read More</a>
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('playlistPosts').innerHTML = postsHTML;
+        document.querySelector('.content-slider').classList.add('show-playlist-detail');
+    }
+    
+    function hidePlaylistDetail() {
+        document.querySelector('.content-slider').classList.remove('show-playlist-detail');
+    }
+
+    function showPosts() {
+        const slider = document.querySelector('.content-slider');
+        slider.classList.remove('show-playlist');
+        slider.classList.remove('show-playlist-detail');
+    }
+
+    function showPlaylist() {
+        const slider = document.querySelector('.content-slider');
+        slider.classList.add('show-playlist');
+        slider.classList.remove('show-playlist-detail');
+    }
+
+    // Add click handlers to playlist items
+    document.querySelectorAll('.playlist-item').forEach(item => {
+        item.onclick = function() {
+            const playlistId = this.getAttribute('data-playlist-id');
+            showPlaylistDetail(playlistId);
+        };
+    });
+
+    // Show posts section by default
+    document.addEventListener('DOMContentLoaded', function() {
+        showPosts();
+    });
     </script>
 
 </body>
