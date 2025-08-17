@@ -6,7 +6,7 @@
   <title>WGS Story's</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+    body, html { height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
 
     /* Animated Gradient BG */
     body {
@@ -15,107 +15,66 @@
       animation: gradientShift 12s ease infinite;
     }
 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     /* Particles Canvas */
-    #particles {
+    #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+
+    /* Overlay & Card */
+    .overlay, .age-modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 2;
     }
 
-    /* Overlay */
-    .overlay, .age-modal-overlay {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Glass Card */
-    .welcome-card, .age-modal {
+    .welcome-card, .age-card {
       background: rgba(255, 255, 255, 0.08);
-      padding: 3rem;
+      padding: 2rem 3rem;
       border-radius: 20px;
       text-align: center;
       color: white;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 1.2s ease forwards;
     }
 
-    /* Modal Hidden by Default */
-    .age-modal-overlay { 
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-
-    /* Logo */
-    .logo { width: 100px; height: 100px; margin-bottom: 1rem; animation: popIn 1s ease; }
-
-    /* Title */
-    .welcome-card h1, .age-modal h2 { margin-bottom: 0.5rem; }
-    .welcome-card h1 { font-size: 2.5rem; }
+    .welcome-card h1, .age-card h1 { font-size: 2rem; margin-bottom: 1rem; }
     .welcome-card h1 span { color: #ffdd57; }
-    .age-modal h2 { font-size: 2rem; }
 
-    /* Tagline */
-    .welcome-card p { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.85; }
-
-    /* Buttons */
     button {
-      padding: 1rem 2.5rem;
-      font-size: 1.2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
       border: none;
       border-radius: 50px;
       background: #ffdd57;
       color: #333;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
       margin: 0.5rem;
+      transition: all 0.3s ease;
     }
-    button:hover { background: white; transform: scale(1.1); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4); }
+    button:hover { background: white; transform: scale(1.05); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
 
-    /* Animations */
-    @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-    /* Mobile Responsive */
     @media (max-width: 600px) {
-      .welcome-card, .age-modal { padding: 2rem; }
-      .welcome-card h1 { font-size: 2rem; }
-      .age-modal h2 { font-size: 1.6rem; }
+      .welcome-card, .age-card { padding: 2rem; }
+      .welcome-card h1, .age-card h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Particles -->
   <canvas id="particles"></canvas>
 
-  <!-- Age Confirmation Modal -->
-  <div class="age-modal-overlay" id="age-modal">
-    <div class="age-modal">
-      <h2>Are you 18 years or older?</h2>
-      <div>
-        <button id="age-yes">Yes ✅</button>
-        <button id="age-no">No ❌</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Main Content -->
-  <div class="overlay" id="main-content">
+  <div id="main-content" class="overlay">
     <div class="welcome-card">
       <h1>Welcome to <span>WGS Story's</span></h1>
       <p>Where ideas turn into reality.</p>
@@ -123,81 +82,103 @@
     </div>
   </div>
 
+  <!-- Age Confirmation Modal -->
+  <div id="age-modal" class="age-modal">
+    <div class="age-card">
+      <h1>Are you 18+?</h1>
+      <button id="age-yes">Yes ✅</button>
+      <button id="age-no">No ❌</button>
+    </div>
+  </div>
+
   <script>
-    // Show age modal on page load
-    window.addEventListener('load', () => {
-      document.getElementById('age-modal').style.display = 'flex';
-      document.getElementById('main-content').style.display = 'none';
-    });
-
-    // Age buttons
-    document.getElementById('age-yes').addEventListener('click', () => {
-      document.getElementById('age-modal').style.display = 'none';
-      document.getElementById('main-content').style.display = 'flex';
-    });
-
-    document.getElementById('age-no').addEventListener('click', () => {
-      alert("Sorry, you must be 18+ to enter this site.");
-      window.location.href = "https://example.com"; // Redirect somewhere safe
-    });
-
-    // Button Click -> Fade out and redirect
-    document.getElementById('enter-btn').addEventListener('click', () => {
-      document.querySelector('.overlay').style.opacity = '0';
-      document.querySelector('.overlay').style.transition = 'opacity 0.8s ease';
-      setTimeout(() => {
-        window.location.href = "https://yomesh007.github.io/WGS-Story-s/"; 
-      }, 800);
-    });
-
     // Particle Animation
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let particlesArray;
+    let particlesArray = [];
     function initParticles() {
       particlesArray = [];
-      for (let i = 0; i < 80; i++) {
+      for(let i=0;i<80;i++){
         particlesArray.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 1,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5
+          x: Math.random()*canvas.width,
+          y: Math.random()*canvas.height,
+          size: Math.random()*2+1,
+          speedX: (Math.random()-0.5)*0.5,
+          speedY: (Math.random()-0.5)*0.5
         });
       }
     }
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
-      particlesArray.forEach(p => {
+
+    function drawParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="rgba(255,255,255,0.8)";
+      particlesArray.forEach(p=>{
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
         ctx.fill();
       });
     }
-    function updateParticles() {
-      particlesArray.forEach(p => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+    function updateParticles(){
+      particlesArray.forEach(p=>{
+        p.x += p.speedX; p.y += p.speedY;
+        if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+        if(p.y<0||p.y>canvas.height) p.speedY*=-1;
       });
     }
-    function animateParticles() {
-      drawParticles();
-      updateParticles();
-      requestAnimationFrame(animateParticles);
-    }
-    initParticles();
-    animateParticles();
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
+
+    function animateParticles(){ drawParticles(); updateParticles(); requestAnimationFrame(animateParticles); }
+    initParticles(); animateParticles();
+    window.addEventListener('resize', () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; initParticles(); });
+
+    // Age Modal Logic
+    const ageModal = document.getElementById('age-modal');
+    const mainContent = document.getElementById('main-content');
+    const enterBtn = document.getElementById('enter-btn');
+
+    // Show age modal first
+    mainContent.style.display = 'none';
+    ageModal.style.display = 'flex';
+
+    document.getElementById('age-yes').addEventListener('click', () => {
+      ageModal.style.display = 'none';
+      mainContent.style.display = 'flex';
+    });
+
+    document.getElementById('age-no').addEventListener('click', () => {
+      mainContent.style.display = 'none';
+      ageModal.style.display = 'none';
+
+      // Block screen
+      const blockedMsg = document.createElement('div');
+      blockedMsg.style.position = 'fixed';
+      blockedMsg.style.top='0';
+      blockedMsg.style.left='0';
+      blockedMsg.style.width='100%';
+      blockedMsg.style.height='100%';
+      blockedMsg.style.background='#000';
+      blockedMsg.style.color='#fff';
+      blockedMsg.style.display='flex';
+      blockedMsg.style.justifyContent='center';
+      blockedMsg.style.alignItems='center';
+      blockedMsg.style.fontSize='2rem';
+      blockedMsg.style.textAlign='center';
+      blockedMsg.innerText = "🚫 Sorry, you must be 18+ to enter this site!";
+      document.body.appendChild(blockedMsg);
+    });
+
+    // Enter button fade & redirect
+    enterBtn.addEventListener('click', () => {
+      mainContent.style.opacity='0';
+      mainContent.style.transition='opacity 0.8s ease';
+      setTimeout(()=> {
+        window.location.href = "https://yomesh007.github.io/WGS-Story-s/";
+      },800);
     });
   </script>
+
 </body>
 </html>
