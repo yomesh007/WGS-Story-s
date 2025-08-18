@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - WGS Storys</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .profile-container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .dark-mode .profile-container {
+            background: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+        }
+        .profile-info h2 {
+            margin: 10px 0 5px;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #777;
+        }
+        .dark-mode .profile-info p {
+            color: #bbb;
+        }
+        .bio {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .dark-mode .bio {
+            background: #333;
+        }
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .content-slider {
+            display: flex;
+            width: 300%;  /* Changed from 200% to 300% for 3 sections */
+            transform: translateX(0);
+            transition: transform 0.5s ease;
+        }
+        .content-slider.show-playlist {
+            transform: translateX(-33.33%);
+        }
+        .content-slider.show-playlist-detail {
+            transform: translateX(-66.66%);
+        }
+        .main-content, .playlist-container, .playlist-detail-view {
+            width: 33.33%;  /* Changed from 50% to 33.33% */
+            padding: 20px;
+        }
+        .nav-button {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            background: #0056b3;
+        }
+        .nav-button.next:hover {
+            transform: translateX(5px);
+        }
+        .nav-button.back:hover {
+            transform: translateX(-5px);
+        }
+        .dark-mode .nav-button {
+            background: #333;
+        }
+        .dark-mode .nav-button:hover {
+            background: #444;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #007bff;
+        }
+        .posts h3, .playlist-container h3 {
+            margin-bottom: 10px;
+        }
+        .post {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .post h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .post .date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .playlist-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .dark-mode .playlist-item {
+            background: #222;
+        }
+        .playlist-item:hover {
+            background: #f0f0f0;
+        }
+        .dark-mode .playlist-item:hover {
+            background: #333;
+        }
+        .playlist-info h4 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+        .dark-mode .playlist-info h4 {
+            color: #fff;
+        }
+        .button {
+            margin: 10px;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .dark-mode-toggle {
+            background: #007bff;
+            color: white;
+        }
+        .dark-mode .dark-mode-toggle {
+            background: #ffcc00;
+            color: black;
+        }
+        /* buttons */  
+
+.glow-on-hover {
+    width: 60px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+.read-more{
+  background-color: #000000;
+  border: none;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.playlist-detail-view .read-more {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 15px;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+    .playlist-detail-view .read-more:hover {
+        background: #0056b3;
+    }
+    .dark-mode .playlist-detail-view .read-more {
+        background: #333;
+    }
+    .dark-mode .playlist-detail-view .read-more:hover {
+        background: #444;
+    }
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+p {
+  line-height: 1.8;
+  text-align: justify;
+}
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  width: 200px;
+  margin: auto;
+}
+.back:hover {
+  background: #0056b3;
+}
+.playlist-detail {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .playlist-detail-content {
+        width: 90%;
+        max-width: 800px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .dark-mode .playlist-detail-content {
+        background: #1e1e1e;
+    }
+    .close-playlist {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+    }
+    .playlist-header {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .playlist-header h2 {
+        margin-bottom: 10px;
+    }
+    .playlist-stats {
+        font-size: 14px;
+        color: #666;
+    }
+    .back-button {
+        background: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    .back-button:hover {
+        background: #0056b3;
+        transform: translateX(-5px);
+    }
+    .next-button {
+        background: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin-left: auto;
+    }
+    .next-button:hover {
+        background: #0056b3;
+        transform: translateX(5px);
+    }
+    .dark-mode .back-button,
+    .dark-mode .next-button {
+        background: #333;
+    }
+    .dark-mode .back-button:hover,
+    .dark-mode .next-button:hover {
+        background: #444;
+    }
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img id="profile-photo" src="../Profile/Profile Photo/Used/Profile.jpg" alt="Sem 68 " class="profile-photo">
+        
+        <div class="profile-info">
+            <h2 id="name">Sem</h2>
+            <p id="username">@Sem 68</p>
+            <p id="location">📍 Bihar, India</p>
+            <p id="join-date">Joined: 08/2025</p>
+        </div>
+
+        <div class="bio">
+            <h3>Bio</h3>
+            <p id="bio-text">Lover of love stories ! 📖</p>
+        </div>
+        <button class="dark-mode-toggle button" onclick="toggleDarkMode()">Dark Mode</button>
+
+
+        <div class="content-wrapper">
+            <div class="content-slider">
+                <!-- First View: Recent Posts -->
+                <div class="main-content">
+                    <h3 class="section-title">Recent Posts</h3>
+                    <div class="post">
+                        <h3>मासी और उनकी सहेली संग चुदाई के मजे</h3>
+                        <p class="date">08 18, 2025</p>
+                        <p>हॉट फुद्दी चुदाई कहानी में मेरी मासी मेरे साथ रहती है मेरी बीवी की तरह चूत मरवाती है. एक बार हम उसकी विधवा सहेली के घर गए. वहां सहेली की फुद्दी का मजा मासी ने दिलवाया...</p>
+                        <br>
+                        <a href="../../Sem 68/Post/मासी और उनकी सहेली संग चुदाई के मजे/index.html" class="glow-on-hover">
+                            <div class="read-more">Read More</div>
+                        </a>
+                    </div>
+                    <div class="button-container">
+                        <div></div>
+                        <button class="nav-button next" onclick="showPlaylist()">Playlist <span>→</span></button>
+                    </div>
+                </div>
+
+                <!-- Second View: Playlist List -->
+                <div class="playlist-container">
+                    <div class="button-container">
+                        <button class="nav-button back" onclick="showPosts()"><span>←</span> Back</button>
+                        <div></div>
+                    </div>
+                    <h3 class="section-title">Playlist</h3>
+                    <div class="playlist-item" data-playlist-id="चाँदनी-रात">
+                        <div class="playlist-info">
+                            <h4>चाँदनी रात का वादा</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Third View: Playlist Details -->
+                <div class="playlist-detail-view">
+                    <div class="button-container">
+                        <button class="nav-button back" onclick="hidePlaylistDetail()"><span>←</span> Back to Playlist</button>
+                        <div></div>
+                    </div>
+                    <div class="playlist-header">
+                        <h2 id="playlistTitle"></h2>
+                        <div class="playlist-stats">
+                            <span id="playlistCount"></span> stories • 
+                            <span id="playlistViews"></span> total views
+                        </div>
+                    </div>
+                    <div id="playlistPosts"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <footer>
+      <div class="bottom-nav">
+        <button class="glow-on-hover" type="button" onclick="goBack()"><div class="icon"> 🏠</div></button>
+       <a href="../../../post mail/index.html"><button class="glow-on-hover" type="button"> <div class="icon">➕</div></button></a>
+         
+       <!-- <a href=""><button class="glow-on-hover" type="button"> <div class="icon">👤</div></button></a> -->
+      </div>
+
+    </footer>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            let button = document.querySelector(".dark-mode-toggle");
+            button.innerText = document.body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
+        }
+         function goBack() {
+            window.history.back();
+        }
+        function togglePlaylist() {
+            const slider = document.querySelector('.content-slider');
+            const button = document.querySelector('.nav-button');
+            
+            if (slider.classList.contains('show-playlist')) {
+                slider.classList.remove('show-playlist');
+                button.textContent = 'Show Playlist';
+            } else {
+                slider.classList.add('show-playlist');
+                button.textContent = 'Show Posts';
+            }
+        }
+        const playlists = {
+        'मासी और उनकी सहेली संग चुदाई के मजे': {
+            title: 'मासी और उनकी सहेली संग चुदाई के मजे',
+            posts: [
+                {
+                    title: 'मासी और उनकी सहेली संग चुदाई के मजे',
+                    description: 'हॉट फुद्दी चुदाई कहानी में मेरी मासी मेरे साथ रहती है मेरी बीवी की तरह चूत मरवाती है. एक बार हम उसकी विधवा सहेली के घर गए. वहां सहेली की फुद्दी का मजा मासी ने दिलवाया..',
+                    link: "../../Sem 68/Post/मासी और उनकी सहेली संग चुदाई के मजे/index.html",
+                },
+    
+            ]
+        }
+        // Add more playlists here
+    };
+
+    function showPlaylistDetail(playlistId) {
+        const playlist = playlists[playlistId];
+        if (!playlist) return;
+
+        document.getElementById('playlistTitle').textContent = playlist.title;
+        document.querySelector('.playlist-stats').textContent = `${playlist.posts.length} stories`;
+
+        const postsHTML = playlist.posts.map(post => `
+            <div class="playlist-item">
+                <div class="playlist-info">
+                    <h4>${post.title}</h4>
+                    <a href="${post.link}" class="read-more">Read More</a>
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('playlistPosts').innerHTML = postsHTML;
+        document.querySelector('.content-slider').classList.add('show-playlist-detail');
+    }
+    
+    function hidePlaylistDetail() {
+        document.querySelector('.content-slider').classList.remove('show-playlist-detail');
+    }
+
+    function showPosts() {
+        const slider = document.querySelector('.content-slider');
+        slider.classList.remove('show-playlist');
+        slider.classList.remove('show-playlist-detail');
+    }
+
+    function showPlaylist() {
+        const slider = document.querySelector('.content-slider');
+        slider.classList.add('show-playlist');
+        slider.classList.remove('show-playlist-detail');
+    }
+
+    // Add click handlers to playlist items
+    document.querySelectorAll('.playlist-item').forEach(item => {
+        item.onclick = function() {
+            const playlistId = this.getAttribute('data-playlist-id');
+            showPlaylistDetail(playlistId);
+        };
+    });
+
+    // Show posts section by default
+    document.addEventListener('DOMContentLoaded', function() {
+        showPosts();
+    });
+    </script>
+
+</body>
+</html>
